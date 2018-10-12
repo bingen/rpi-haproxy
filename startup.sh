@@ -8,7 +8,6 @@ mkdir -p /etc/letsencrypt/haproxy
 
 sed -i "s/\${NEXTCLOUD_URL}/${NEXTCLOUD_URL}/g" $CFG_FILE
 sed -i "s/\${GOGS_URL}/${GOGS_URL}/g" $CFG_FILE
-sed -i "s/\${ZONEMINDER_URL}/${ZONEMINDER_URL}/g" $CFG_FILE
 
 # Let's Encrypt
 
@@ -19,7 +18,7 @@ sed -i "s/\${ZONEMINDER_URL}/${ZONEMINDER_URL}/g" $CFG_FILE
 haproxy -f $CFG_LE_FILE -D -p /tmp/haproxy.pid
 
 # Get Let's Encrypt certificates
-for _URL in ${NEXTCLOUD_URL} ${GOGS_URL} ${ZONEMINDER_URL}; do
+for _URL in ${NEXTCLOUD_URL} ${GOGS_URL}; do
     if [[ ! -s /etc/letsencrypt/haproxy/${_URL}.pem ]]; then
         # Query Let's Encrypt
         certbot certonly -d ${_URL} \
