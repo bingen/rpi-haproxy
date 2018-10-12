@@ -37,16 +37,7 @@ kill -SIGTERM `cat /tmp/haproxy.pid`
 rm /tmp/haproxy.pid
 
 # Create renew cron job
-echo "#!/bin/sh" > /etc/cron.monthly/letsencrypt
-echo "" >> /etc/cron.monthly/letsencrypt
-echo "certbot renew --tls-sni-01-port=8888" >> /etc/cron.monthly/letsencrypt
-echo "" >> /etc/cron.monthly/letsencrypt
-echo "for _URL in `ls /etc/letsencrypt/live`; do"  >> /etc/cron.monthly/letsencrypt
-echo "    cat /etc/letsencrypt/live/${_URL}/fullchain.pem \ " >> /etc/cron.monthly/letsencrypt
-echo "        /etc/letsencrypt/live/${_URL}/privkey.pem \ "  >> /etc/cron.monthly/letsencrypt
-echo "        > /etc/letsencrypt/haproxy/${_URL}.pem;"  >> /etc/cron.monthly/letsencrypt;
-echo "done;"  >> /etc/cron.monthly/letsencrypt;
-echo ""  >> /etc/cron.monthly/letsencrypt;
+mv /usr/local/bin/letsencrypt.cron /etc/cron.monthly/letsencrypt
 # remove default cron job
 mv /etc/cron.d/certbot /tmp
 
